@@ -15,7 +15,7 @@
 ## BẢN GHI PHỎNG VẤN 1 (Interviewer: Phạm Bá Huy)
 
 ### 1. Thông tin người tham gia & Recruitment Check
-- **Mã người tham gia**: `HV-01 (Teo)`
+- **Mã người tham gia (Mã HV)**: `2A202601814` (Tên: Teo)
 - **Đối tượng**: Học viên đang tự học khóa học Lập trình Web Frontend (ReactJS) trực tuyến.
 - **Đúng tiêu chí tuyển**: **[x] Có** / [ ] Không  
   *(Vừa gặp tình huống kẹt bài tập React Hooks trong vài ngày gần đây)*.
@@ -36,7 +36,7 @@
 ## BẢN GHI PHỎNG VẤN 2 (Interviewer: Nguyễn Văn Tuấn Anh)
 
 ### 1. Thông tin người tham gia & Recruitment Check
-- **Mã người tham gia**: `HV-02 (Thành)`
+- **Mã người tham gia (Mã HV)**: `2A202601428` (Tên: Thành)
 - **Đối tượng**: Học viên đang tự học môn Cấu trúc dữ liệu & Giải thuật.
 - **Đúng tiêu chí tuyển**: **[x] Có** / [ ] Không  
   *(Vừa gặp khó khăn khi làm bài tập giải thuật trong tuần)*.

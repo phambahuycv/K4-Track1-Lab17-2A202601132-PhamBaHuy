@@ -28,8 +28,8 @@
 - **Mã học viên**: `2A202601132`
 - **Tên nhóm**: **Chicken Plus**
 - **Thành viên & Phân công thực tế**:
-  - **Phạm Bá Huy**: Phỏng vấn học viên `HV-01 (Teo)` — Chủ đề kẹt bài tập React Hooks / useEffect.
-  - **Nguyễn Văn Tuấn Anh**: Phỏng vấn học viên `HV-02 (Thành)` — Chủ đề kẹt giải thuật Cây (Tree Algorithm) trên VSCode; kiêm Note-taker.
+  - **Phạm Bá Huy**: Phỏng vấn học viên Teo (Mã HV: `2A202601814`) — Chủ đề kẹt bài tập React Hooks / useEffect.
+  - **Nguyễn Văn Tuấn Anh**: Phỏng vấn học viên Thành (Mã HV: `2A202601428`) — Chủ đề kẹt giải thuật Cây (Tree Algorithm) trên VSCode; kiêm Note-taker.
 - **Case study lựa chọn**: Khảo sát bế tắc học tập và rào cản tìm kiếm hỗ trợ của Học viên (Learner) trên nền tảng học trực tuyến VLearn.
 
 ---
@@ -123,14 +123,14 @@ Chuỗi logic khám phá vấn đề:
 
 ## Phần 4: Practice Reflection (Chặng 4)
 
-Sau khi hoàn thành 2 lượt phỏng vấn thực tế với bạn **Teo (Huy phỏng vấn)** và bạn **Thành (Tuấn Anh phỏng vấn)**, nhóm rút ra các bài học phản tư cụ thể:
+Sau khi hoàn thành 2 lượt phỏng vấn thực tế với bạn **Teo (Mã HV: `2A202601814` - Huy phỏng vấn)** và bạn **Thành (Mã HV: `2A202601428` - Tuấn Anh phỏng vấn)**, nhóm rút ra các bài học phản tư cụ thể:
 
 ### 1. Câu hỏi nào đã giúp user kể một tình huống cụ thể?
 > **Trả lời**:  
 > Câu hỏi: *"Bạn có nhớ lần gần nhất, khi đang học một bài online, bạn gặp chỗ nào mà cảm thấy không hiểu, cảm thấy bị kẹt không? Bạn đang học bài gì vào lúc đó?"*.  
 > Câu hỏi này đã lập tức kích hoạt ký ức trải nghiệm thực tế:
-> - Bạn **Teo** kể chi tiết về lần học video React Hooks `useEffect` mấy ngày trước, tự viết component form bị lỗi dữ liệu không cập nhật, xem lại video 3 lần và loay hoay 40 phút.
-> - Bạn **Thành** kể về lúc nghiên cứu giải thuật Cây trên VSCode trong tuần qua, cảm thấy bức bối mơ hồ vì không biết bắt đầu từ đâu.
+> - Bạn **Teo (Mã HV: `2A202601814`)** kể chi tiết về lần học video React Hooks `useEffect` mấy ngày trước, tự viết component form bị lỗi dữ liệu không cập nhật, xem lại video 3 lần và loay hoay 40 phút.
+> - Bạn **Thành (Mã HV: `2A202601428`)** kể về lúc nghiên cứu giải thuật Cây trên VSCode trong tuần qua, cảm thấy bức bối mơ hồ vì không biết bắt đầu từ đâu.
 
 ### 2. Chỗ nào mình cần làm tốt hơn ở lần phỏng vấn thật?
 > **Trả lời**:  
@@ -167,6 +167,6 @@ Bảng ghi chép vai trò của AI trong quá trình thực hiện Lab 17:
 Track1_Day17_2A202601132_PhamBaHuy/
 ├── README.md                 # Toàn bộ báo cáo 5 phần hoàn chỉnh
 └── interview/
-    ├── notes.md              # Biên bản phỏng vấn thực tế của Teo (HV-01) & Thành (HV-02)
+    ├── notes.md              # Biên bản phỏng vấn thực tế của Teo (Mã HV: 2A202601814) & Thành (Mã HV: 2A202601428)
     └── recording-link.md     # Liên kết thư mục Google Drive chứa bản ghi phỏng vấn
 ```

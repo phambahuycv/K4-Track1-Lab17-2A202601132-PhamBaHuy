@@ -2,7 +2,7 @@
 
 - **Người thực hiện phỏng vấn**: Phạm Bá Huy (MHV: `2A202601132`)
 - **Người hỗ trợ ghi chép & quan sát**: Nguyễn Văn Tuấn Anh (MHV: `2A202601813`)
-- **Đối tượng phỏng vấn**: Học viên `HV-01`
+- **Đối tượng phỏng vấn**: Học viên Teo (Mã HV: `2A202601814`) và Học viên Thành (Mã HV: `2A202601428`)
 - **Chủ đề**: Khảo sát trải nghiệm học tập, rào cản tìm kiếm hỗ trợ và hành vi khi bế tắc bài tập trên nền tảng VLearn
 - **Thời lượng**: 
 - **Thời gian thực hiện**: 17/08/2026
