@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VLearn AI Support Radar - A/B/C User Testing Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-dark">
+  <!-- Top Navigation & Facilitator Control Hub -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-badge">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">VLearn <strong>Radar Testbed</strong></span>
+      </div>
+      <div class="badge-tag">Day 18 User Testing</div>
+    </div>
+
+    <!-- Option Selector Tabs (A / B / C) -->
+    <div class="option-switcher" role="tablist">
+      <button class="tab-btn active" id="tab-opt-a" data-option="A" role="tab" aria-selected="true">
+        <span class="tab-pill">Option A</span>
+        <span class="tab-label">Socratic Hints AI <small>(AI-Led)</small></span>
+      </button>
+      <button class="tab-btn" id="tab-opt-b" data-option="B" role="tab" aria-selected="false">
+        <span class="tab-pill">Option B</span>
+        <span class="tab-label">Contextual Explainer <small>(User-Led)</small></span>
+      </button>
+      <button class="tab-btn" id="tab-opt-c" data-option="C" role="tab" aria-selected="false">
+        <span class="tab-pill">Option C</span>
+        <span class="tab-label">Fast SLA Q&A <small>(Human TA)</small></span>
+      </button>
+    </div>
+
+      <!-- 9 Test Cases Modal Trigger -->
+      <button class="mode-toggle-btn" id="btn-open-9testcases" title="Xem danh sách 9 Test Cases của 3 Options">
+        <span class="icon">🧪</span>
+        <span class="text">9 Test Cases</span>
+      </button>
+
+      <!-- Mode Toggle: Tester View vs Facilitator Annotation View -->
+      <button class="mode-toggle-btn" id="btn-toggle-facilitator" title="Bật/Tắt chú thích người phỏng vấn">
+        <span class="icon">📋</span>
+        <span class="text">Facilitator Notes: <strong id="facilitator-mode-text">BẬT</strong></span>
+      </button>
+      <button class="reset-btn" id="btn-reset-scenario" title="Khôi phục trạng thái ban đầu">
+        <span class="icon">🔄</span>
+        <span class="text">Reset Scenario</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Global Testing Banner (Shared Context & Task) -->
+  <div class="scenario-context-bar">
+    <div class="context-item">
+      <span class="context-label">📌 Bối cảnh chung (Common Context):</span>
+      <span class="context-desc">Bạn đang tự học trực tuyến một mình vào buổi tối bài <em>"React Hooks: useEffect & Data Fetching"</em>.</span>
+    </div>
+    <div class="context-item task-item">
+      <span class="context-label">🎯 Nhiệm vụ của bạn (Tester Task):</span>
+      <span class="context-desc">Code đang bị lỗi <code>Test Case #2 FAILED: State user không đổi khi props thay đổi</code>. Hãy tìm cách hiểu nguyên nhân và sửa code để vượt qua bài test.</span>
+    </div>
+  </div>
+
+  <!-- Interactive 9 Test Cases Step-by-Step Guide Bar -->
+  <div class="testcase-guide-bar" id="tc-guide-bar">
+    <div class="guide-header">
+      <div class="guide-title-box">
+        <span class="guide-badge" id="guide-tc-badge">TC-A1</span>
+        <div class="guide-meta">
+          <strong id="guide-tc-title">Option A: Happy Path (Dẫn dắt tư duy từng bước)</strong>
+          <span class="guide-sub" id="guide-tc-goal">Mục tiêu: Tester tự tương tác từng bước để hiểu bản chất useEffect mà không cần đáp án sẵn.</span>
+        </div>
+      </div>
+
+      <div class="guide-selector-box">
+        <label for="select-active-tc">Chọn Test Case để thực hành:</label>
+        <select id="select-active-tc" class="tc-select-dropdown">
+          <optgroup label="Option A: Socratic AI">
+            <option value="A-1">TC-A1: Happy Path (Dẫn dắt tư duy)</option>
+            <option value="A-2">TC-A2: Uncertainty Path (AI chưa chắc chắn)</option>
+            <option value="A-3">TC-A3: Control & Emergency Recovery</option>
+          </optgroup>
+          <optgroup label="Option B: Contextual Explainer">
+            <option value="B-1">TC-B1: Happy Path (Khoanh vùng chính xác)</option>
+            <option value="B-2">TC-B2: Uncertainty (Vùng chọn chưa đủ)</option>
+            <option value="B-3">TC-B3: Control & Depth Customization</option>
+          </optgroup>
+          <optgroup label="Option C: Fast SLA Q&A">
+            <option value="C-1">TC-C1: Happy Path (Ticket & TA Phản hồi)</option>
+            <option value="C-2">TC-C2: Asynchronous Multitasking (Chờ đợi)</option>
+            <option value="C-3">TC-C3: Control & Self-Recovery (Hủy ticket)</option>
+          </optgroup>
+        </select>
+        <button class="btn-guide-toggle" id="btn-guide-toggle-collapse">Ẩn hướng dẫn ▲</button>
+      </div>
+    </div>
+
+    <!-- Stepper Steps & Current Action Instruction -->
+    <div class="guide-body" id="guide-body">
+      <div class="stepper-track" id="stepper-track">
+        <!-- Rendered dynamically: Step 1, Step 2, Step 3, ... -->
+      </div>
+      <div class="current-action-prompt" id="current-action-prompt">
+        <div class="prompt-icon">👉</div>
+        <div class="prompt-text">
+          <div class="prompt-headline" id="prompt-headline">Thao tác bạn cần làm:</div>
+          <div class="prompt-detail" id="prompt-detail">Nhấp vào nút "💡 Cần gợi ý tư duy" trên thanh Editor Actions.</div>
+        </div>
+        <div class="prompt-controls">
+          <button class="btn-step-nav" id="btn-prev-step" disabled>◀ Bước trước</button>
+          <button class="btn-step-nav" id="btn-next-step">Bước kế tiếp ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Facilitator Annotation Panel (Outside the tester frame - toggleable) -->
+  <aside class="facilitator-panel" id="facilitator-panel">
+    <div class="panel-header">
+      <div class="panel-title">
+        <span class="badge-role">FACILITATOR ANNOTATION</span>
+        <span class="title-text" id="fac-option-title">OPTION A: Socratic Hints AI (AI-Led / Guided)</span>
+      </div>
+      <div class="panel-meta">Chú thích dành riêng cho người quan sát / Facilitator</div>
+    </div>
+    <div class="annotation-grid">
+      <div class="annotation-card expect-card">
+        <div class="ann-header">
+          <span class="ann-icon">🎯</span>
+          <strong>We expect the tester to:</strong>
+        </div>
+        <div class="ann-content" id="fac-expect">
+          Nhấp nút "Cần gợi ý tư duy", đọc câu hỏi dẫn dắt của AI, suy ngẫm và trả lời từng bước để tự phát hiện ra lỗi thiếu dependency trong useEffect.
+        </div>
+      </div>
+      <div class="annotation-card watch-card">
+        <div class="ann-header">
+          <span class="ann-icon">👀</span>
+          <strong>Watch for:</strong>
+        </div>
+        <div class="ann-content" id="fac-watch">
+          Tester có đọc kỹ câu hỏi gợi mở hay vội vàng tìm nút đáp án? Tester có cảm thấy bị "hỏi vặn" hay được khai sáng tư duy? Phản xạ khi thấy AI hiển thị 2 giả định nguyên nhân.
+        </div>
+      </div>
+      <div class="annotation-card dont-card">
+        <div class="ann-header">
+          <span class="ann-icon">🚫</span>
+          <strong>Do not explain:</strong>
+        </div>
+        <div class="ann-content" id="fac-dont">
+          TUYỆT ĐỐI KHÔNG giải thích cơ chế Dependency Array của useEffect; KHÔNG giải thích cách AI suy luận hay cách bấm nút tiếp theo. Để tester tự ra quyết định.
+        </div>
+      </div>
+      <div class="annotation-card gate-card">
+        <div class="ann-header">
+          <span class="ann-icon">🛡️</span>
+          <strong>Control & Recovery Points:</strong>
+        </div>
+        <div class="ann-content" id="fac-gate">
+          - <strong>Control:</strong> Nút "Đổi câu hỏi gợi ý" / Tự gõ phản hồi.<br>
+          - <strong>Recovery:</strong> Nút "Hint không đúng ý" / Mở khóa "Xem đáp án chi tiết" nếu kẹt 3 lần.
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Testing Workspace (70% Shared Core Layout) -->
+  <main class="app-workspace">
+    <!-- Left Column: Video Lecture & Curriculum Context -->
+    <section class="lesson-column">
+      <div class="section-card video-card">
+        <div class="card-header">
+          <div class="lecture-info">
+            <span class="module-tag">Module 4: React Advanced</span>
+            <h2 class="lecture-title">Bài 12: useEffect & Quản lý Side Effects</h2>
+          </div>
+          <span class="video-duration">12:45 min</span>
+        </div>
+        
+        <!-- Video Player Mockup -->
+        <div class="video-container" id="video-box">
+          <div class="video-screen">
+            <div class="video-slide-mockup">
+              <div class="slide-badge">React Hooks Anatomy</div>
+              <div class="slide-code-box">
+                <span class="code-keyword">useEffect</span>(() =&gt; {<br>
+                &nbsp;&nbsp;<span class="code-comment">// Side Effect logic</span><br>
+                &nbsp;&nbsp;fetchUser(userId);<br>
+                }, [<span class="code-highlight" id="video-highlight-dep">dependencies</span>]);
+              </div>
+              <div class="slide-caption">
+                <span class="pulse-dot"></span> Mốc <strong>04:12</strong>: <em>Tại sao mảng dependencies lại quyết định thời điểm effect re-run?</em>
+              </div>
+            </div>
+            <div class="video-overlay-controls">
+              <button class="vid-btn play-btn" id="btn-vid-play">▶</button>
+              <div class="vid-timeline">
+                <div class="vid-progress" style="width: 34%;"></div>
+                <div class="vid-marker" style="left: 34%;" title="Mốc 04:12: Giải thích Dependency Array"></div>
+              </div>
+              <span class="vid-time">04:12 / 12:45</span>
+            </div>
+          </div>
+          
+          <div class="video-footer">
+            <div class="quick-nav">
+              <span class="label">Mốc quan trọng:</span>
+              <button class="timestamp-pill active" id="btn-ts-1">04:12 Dependency Array</button>
+              <button class="timestamp-pill" id="btn-ts-2">08:30 Cleanup Function</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syllabus Accordion -->
+      <div class="section-card syllabus-card">
+        <div class="card-header">
+          <h3>Nội dung khóa học</h3>
+          <span class="progress-txt">65% Hoàn thành</span>
+        </div>
+        <ul class="lesson-list">
+          <li class="lesson-item completed">
+            <span class="status-icon">✓</span>
+            <span class="name">Bài 10: Giới thiệu useState & Rules of Hooks</span>
+          </li>
+          <li class="lesson-item completed">
+            <span class="status-icon">✓</span>
+            <span class="name">Bài 11: Component Lifecycle trong Functional Component</span>
+          </li>
+          <li class="lesson-item current">
+            <span class="status-icon">▶</span>
+            <span class="name">Bài 12: useEffect & Quản lý Side Effects</span>
+            <span class="badge-current">Đang học</span>
+          </li>
+          <li class="lesson-item locked">
+            <span class="status-icon">🔒</span>
+            <span class="name">Bài 13: Thực hành Custom Hooks</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Right Column: Code Editor + Test Runner + Critical Interaction -->
+    <section class="editor-column">
+      <!-- Editor Header & File Tabs -->
+      <div class="editor-card">
+        <div class="editor-header">
+          <div class="editor-tabs">
+            <div class="file-tab active">
+              <span class="file-icon">⚛️</span>
+              <span class="file-name">UserProfile.jsx</span>
+              <span class="dirty-indicator">●</span>
+            </div>
+            <div class="file-tab">
+              <span class="file-icon">🧪</span>
+              <span class="file-name">UserProfile.test.js</span>
+            </div>
+          </div>
+          <div class="editor-actions">
+            <!-- Critical Interaction Trigger Button (changes per Option) -->
+            <div id="option-trigger-slot">
+              <!-- Dynamic button injected based on Active Option -->
+            </div>
+            <button class="btn-run-tests" id="btn-run-tests">
+              <span class="icon">▶</span> Run Tests
+            </button>
+          </div>
+        </div>
+
+        <!-- Code Editor Area -->
+        <div class="code-editor-wrapper">
+          <div class="line-numbers">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+            <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+          </div>
+          <div class="code-surface" id="code-surface">
+            <div class="code-line"><span class="c-k">import</span> React, { useState, useEffect } <span class="c-k">from</span> <span class="c-s">'react'</span>;</div>
+            <div class="code-line"><span class="c-k">import</span> { fetchUserData } <span class="c-k">from</span> <span class="c-s">'./api'</span>;</div>
+            <div class="code-line"></div>
+            <div class="code-line"><span class="c-k">export function</span> <span class="c-f">UserProfile</span>({ userId }) {</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-k">const</span> [user, setUser] = <span class="c-f">useState</span>(<span class="c-k">null</span>);</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-k">const</span> [loading, setLoading] = <span class="c-f">useState</span>(<span class="c-k">true</span>);</div>
+            <div class="code-line"></div>
+            <div class="code-line selectable-line" data-line="8">&nbsp;&nbsp;<span class="c-comment">// Lấy thông tin user mỗi khi userId thay đổi</span></div>
+            <div class="code-line selectable-line" data-line="9">&nbsp;&nbsp;<span class="c-f">useEffect</span>(() =&gt; {</div>
+            <div class="code-line selectable-line" data-line="10">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-f">setLoading</span>(<span class="c-k">true</span>);</div>
+            <div class="code-line selectable-line" data-line="11">&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-f">fetchUserData</span>(userId).<span class="c-f">then</span>(data =&gt; {</div>
+            <div class="code-line selectable-line" data-line="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-f">setUser</span>(data);</div>
+            <div class="code-line selectable-line" data-line="13">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-f">setLoading</span>(<span class="c-k">false</span>);</div>
+            <div class="code-line selectable-line" data-line="14">&nbsp;&nbsp;&nbsp;&nbsp;});</div>
+            <div class="code-line selectable-line error-highlight" data-line="15" id="code-line-bug">&nbsp;&nbsp;}, <span class="code-editable-slot" id="editable-deps">[]</span>); <span class="c-comment">// &lt;-- Bug: Thiếu dependency</span></div>
+            <div class="code-line"></div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-k">if</span> (loading) <span class="c-k">return</span> &lt;<span class="c-t">div</span>&gt;Đang tải...&lt;/<span class="c-t">div</span>&gt;;</div>
+            <div class="code-line">&nbsp;&nbsp;<span class="c-k">return</span> &lt;<span class="c-t">div</span> <span class="c-a">className</span>=<span class="c-s">"profile-card"</span>&gt;&lt;<span class="c-t">h3</span>&gt;{user?.name}&lt;/<span class="c-t">h3</span>&gt;&lt;/<span class="c-t">div</span>&gt;;</div>
+            <div class="code-line">}</div>
+          </div>
+        </div>
+
+        <!-- Inline Highlight Context Tooltip (for Option B) -->
+        <div class="highlight-action-popup" id="option-b-popup" style="display: none;">
+          <div class="popup-bubble">
+            <span class="sparkle">✨</span>
+            <span class="text" id="popup-selection-text">Đã chọn dòng 15: <code>}, []);</code></span>
+            <button class="btn-popup-trigger" id="btn-b-explain-selection">
+              🔍 Giải thích đoạn này với AI
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Console / Test Results & Critical Interaction Dock -->
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-tabs">
+            <button class="term-tab active" id="term-tab-tests">Test Results (<span id="fail-count-badge">1 Fail</span>)</button>
+            <button class="term-tab" id="term-tab-console">Browser Console</button>
+            <button class="term-tab" id="term-tab-interaction" style="display: none;">
+              <span class="active-dot"></span> <span id="interaction-tab-title">AI Assistant</span>
+            </button>
+          </div>
+          <span class="term-status status-fail" id="term-status-badge">❌ 1 of 2 Tests Passing</span>
+        </div>
+
+        <!-- Test Results View -->
+        <div class="terminal-body" id="terminal-tests-view">
+          <div class="test-suite-header">
+            <span class="suite-title">● UserProfile Component Suite (2 tests)</span>
+            <span class="suite-time">Ran in 340ms</span>
+          </div>
+          
+          <div class="test-item pass">
+            <span class="test-status-badge">PASS</span>
+            <span class="test-name">✓ renders initial user data when mounted with userId="1"</span>
+            <span class="test-duration">42ms</span>
+          </div>
+
+          <div class="test-item fail" id="test-item-2">
+            <span class="test-status-badge">FAIL</span>
+            <div class="test-details">
+              <div class="test-title">✕ re-fetches and updates user data when props.userId changes from "1" to "2"</div>
+              <div class="test-error-log">
+                <span class="error-line">AssertionError: Expected component to render "Bob (ID: 2)", but still displaying "Alice (ID: 1)".</span>
+                <span class="error-hint">Hint: State did not re-fetch. Check if useEffect is listening to props.userId change.</span>
+                <span class="error-stack">at UserProfile.test.js:28:12 (UserProfile.jsx:15)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Critical Interaction Panel (Option A / B / C) -->
+        <div class="interaction-container" id="interaction-panel" style="display: none;">
+          <!-- Dynamic Content rendered by app.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Modal when user fixes the code and all tests pass -->
+  <div class="modal-overlay" id="success-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h2>Chúc mừng! Tất cả Test Cases đã PASS!</h2>
+      <p class="modal-subtitle">Bạn đã tự chẩn đoán và khắc phục thành công lỗi thiếu Dependency trong <code>useEffect</code>.</p>
+      
+      <div class="modal-summary-box">
+        <div class="summary-item">
+          <span class="s-label">Phương án bạn vừa trải nghiệm:</span>
+          <span class="s-val" id="modal-option-name">Option A: Socratic Hints AI</span>
+        </div>
+        <div class="summary-item">
+          <span class="s-label">Điểm mấu chốt bạn đã làm chủ:</span>
+          <span class="s-val">Thêm <code>[userId]</code> vào dependency array để React kích hoạt lại effect khi props thay đổi.</span>
+        </div>
+      </div>
+
+  <!-- 9 Test Cases Interactive Matrix Modal -->
+  <div class="modal-overlay" id="matrix-modal" style="display: none;">
+    <div class="modal-card matrix-modal-card">
+      <div class="matrix-header">
+        <div class="matrix-title">
+          <span class="matrix-icon">🧪</span>
+          <h2>Ma Trận 9 Test Cases Kiểm Thử (3 Options × 3 Scenarios)</h2>
+        </div>
+        <button class="btn-close-modal" id="btn-close-matrix">✕</button>
+      </div>
+      
+      <p class="matrix-desc">
+        Mỗi Option được kiểm chứng qua 3 cấp độ: <strong>Happy Path</strong> (Dẫn dắt thành công), <strong>Uncertainty</strong> (Xử lý khi thiếu thông tin/AI phân vân), và <strong>Control & Recovery</strong> (Quyền kiểm soát & Phục hồi khi kẹt).
+      </p>
+
+      <div class="matrix-table-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Option</th>
+              <th>Mã TC</th>
+              <th>Loại kiểm thử</th>
+              <th>Kịch bản & Thao tác của Tester</th>
+              <th>Tiêu chí đạt (Pass Criteria)</th>
+              <th>Chạy thử</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Option A -->
+            <tr class="row-opt-a">
+              <td rowspan="3" class="opt-cell"><span class="badge-a">Option A</span><br><small>Socratic AI</small></td>
+              <td><code>TC-A1</code></td>
+              <td><span class="type-tag happy">Happy Path</span></td>
+              <td>Bấm <em>"Cần gợi ý tư duy"</em> → chọn đáp án A (effect chỉ chạy 1 lần) → tự sửa code <code>[userId]</code>.</td>
+              <td>Tester tự hiểu bản chất mà không nhận đáp án làm sẵn. Test #2 PASS.</td>
+              <td><button class="btn-run-tc" data-jump="A-1">▶ Thử A1</button></td>
+            </tr>
+            <tr class="row-opt-a">
+              <td><code>TC-A2</code></td>
+              <td><span class="type-tag unc">Uncertainty</span></td>
+              <td>AI phân vân giữa 2 nguyên nhân (Dependency Array vs Closure); tester chọn nhánh #1 để AI điều hướng tiếp.</td>
+              <td>Hệ thống không tự ý đoán mò khi chưa chắc; trao quyền xác nhận cho học viên.</td>
+              <td><button class="btn-run-tc" data-jump="A-2">▶ Thử A2</button></td>
+            </tr>
+            <tr class="row-opt-a">
+              <td><code>TC-A3</code></td>
+              <td><span class="type-tag ctrl">Control & Recovery</span></td>
+              <td>Bấm <em>"Đổi câu hỏi gợi ý khác"</em> / <em>"Hint không đúng ý"</em> hoặc bấm <em>"🚨 Xem đáp án chi tiết"</em> khi kẹt.</td>
+              <td>Tester luôn giữ quyền kiểm soát, có đường thoát an toàn, không bị nhốt trong vòng lặp AI.</td>
+              <td><button class="btn-run-tc" data-jump="A-3">▶ Thử A3</button></td>
+            </tr>
+
+            <!-- Option B -->
+            <tr class="row-opt-b">
+              <td rowspan="3" class="opt-cell"><span class="badge-b">Option B</span><br><small>Explainer</small></td>
+              <td><code>TC-B1</code></td>
+              <td><span class="type-tag happy">Happy Path</span></td>
+              <td>Bôi đen dòng 15 (<code>}, []);</code>) hoặc mốc video 04:12 → Bấm <em>"Giải thích đoạn này"</em> → tự sửa code.</td>
+              <td>Giải thích cô đọng sát bài giảng, không phát sinh thuật ngữ lạ. Test #2 PASS.</td>
+              <td><button class="btn-run-tc" data-jump="B-1">▶ Thử B1</button></td>
+            </tr>
+            <tr class="row-opt-b">
+              <td><code>TC-B2</code></td>
+              <td><span class="type-tag unc">Uncertainty</span></td>
+              <td>Tester chọn vùng quá ngắn (1 từ) hoặc chọn sai dòng → Hệ thống cảnh báo thiếu ngữ cảnh.</td>
+              <td>AI từ chối trả lời mơ hồ; yêu cầu tester khoanh vùng đầy đủ dòng lệnh.</td>
+              <td><button class="btn-run-tc" data-jump="B-2">▶ Thử B2</button></td>
+            </tr>
+            <tr class="row-opt-b">
+              <td><code>TC-B3</code></td>
+              <td><span class="type-tag ctrl">Control & Recovery</span></td>
+              <td>Bấm <em>"Cho ví dụ minh họa"</em> / <em>"Giải thích ngắn hơn"</em> hoặc bấm <em>"✕ Đóng & Tự sửa"</em>.</td>
+              <td>Tester chủ động điều chỉnh độ sâu kiến thức phù hợp năng lực tiếp thu.</td>
+              <td><button class="btn-run-tc" data-jump="B-3">▶ Thử B3</button></td>
+            </tr>
+
+            <!-- Option C -->
+            <tr class="row-opt-c">
+              <td rowspan="3" class="opt-cell"><span class="badge-c">Option C</span><br><small>Fast SLA</small></td>
+              <td><code>TC-C1</code></td>
+              <td><span class="type-tag happy">Happy Path</span></td>
+              <td>Gửi ticket hỗ trợ (tự đính kèm code/log) → Đếm ngược SLA ≤ 30p → Nhận phản hồi từ TA Nam.</td>
+              <td>Độ chính xác cao từ con người nhưng trải nghiệm cảm giác chờ đợi. Test #2 PASS.</td>
+              <td><button class="btn-run-tc" data-jump="C-1">▶ Thử C1</button></td>
+            </tr>
+            <tr class="row-opt-c">
+              <td><code>TC-C2</code></td>
+              <td><span class="type-tag unc">Multitasking</span></td>
+              <td>Trong lúc chờ TA, bấm <em>"Học tạm Bài 13"</em> để không bị đứt đà học tập; nhận thông báo khi có phản hồi.</td>
+              <td>Tránh lãng phí thời gian chết của học viên trong lúc đợi phản hồi bất đồng bộ.</td>
+              <td><button class="btn-run-tc" data-jump="C-2">▶ Thử C2</button></td>
+            </tr>
+            <tr class="row-opt-c">
+              <td><code>TC-C3</code></td>
+              <td><span class="type-tag ctrl">Control & Recovery</span></td>
+              <td>Khi đang chờ, tester tự sửa được lỗi → Bấm <em>"Tôi đã tự sửa được (Hủy ticket)"</em>.</td>
+              <td>Học viên có toàn quyền thu hồi yêu cầu khi không còn cần, giải phóng hàng đợi TA.</td>
+              <td><button class="btn-run-tc" data-jump="C-3">▶ Thử C3</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
