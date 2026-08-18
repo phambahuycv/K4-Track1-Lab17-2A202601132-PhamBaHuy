@@ -428,6 +428,9 @@
     // Modal
     successModal: document.getElementById('success-modal'),
     modalOptionName: document.getElementById('modal-option-name'),
+    btnCloseSuccess: document.getElementById('btn-close-success'),
+    btnModalBackTestcases: document.getElementById('btn-modal-back-testcases'),
+    btnModalOpenMatrix: document.getElementById('btn-modal-open-matrix'),
     btnModalReset: document.getElementById('btn-modal-reset'),
     btnModalTestOther: document.getElementById('btn-modal-test-other'),
 
@@ -534,17 +537,39 @@
       }
     });
 
-    // Modal buttons
-    dom.btnModalReset.addEventListener('click', () => {
+    // Success Modal buttons
+    dom.btnCloseSuccess?.addEventListener('click', () => {
       dom.successModal.style.display = 'none';
       resetScenario();
     });
 
-    dom.btnModalTestOther.addEventListener('click', () => {
+    dom.btnModalBackTestcases?.addEventListener('click', () => {
+      dom.successModal.style.display = 'none';
+      resetScenario();
+      // Scroll up and focus on the guide bar dropdown
+      dom.tcGuideBar?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      dom.selectActiveTc?.focus();
+    });
+
+    dom.btnModalOpenMatrix?.addEventListener('click', () => {
+      dom.successModal.style.display = 'none';
+      resetScenario();
+      dom.matrixModal.style.display = 'flex';
+    });
+
+    dom.btnModalReset?.addEventListener('click', () => {
+      dom.successModal.style.display = 'none';
+      resetScenario();
+      loadTestCase(state.activeTestCase, 0);
+    });
+
+    dom.btnModalTestOther?.addEventListener('click', () => {
       dom.successModal.style.display = 'none';
       const nextOpt = state.activeOption === 'A' ? 'B' : state.activeOption === 'B' ? 'C' : 'A';
       switchOption(nextOpt);
       resetScenario();
+      const defaultTcForOpt = nextOpt === 'A' ? 'A-1' : nextOpt === 'B' ? 'B-1' : 'C-1';
+      loadTestCase(defaultTcForOpt, 0);
     });
   }
 

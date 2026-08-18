@@ -364,7 +364,8 @@
 
   <!-- Success Modal when user fixes the code and all tests pass -->
   <div class="modal-overlay" id="success-modal" style="display: none;">
-    <div class="modal-card">
+    <div class="modal-card" style="position: relative;">
+      <button class="btn-close-modal" id="btn-close-success" style="position: absolute; top: 16px; right: 20px;" title="Đóng cửa sổ">✕</button>
       <div class="modal-icon">🎉</div>
       <h2>Chúc mừng! Tất cả Test Cases đã PASS!</h2>
       <p class="modal-subtitle">Bạn đã tự chẩn đoán và khắc phục thành công lỗi thiếu Dependency trong <code>useEffect</code>.</p>
@@ -379,6 +380,23 @@
           <span class="s-val">Thêm <code>[userId]</code> vào dependency array để React kích hoạt lại effect khi props thay đổi.</span>
         </div>
       </div>
+
+      <div class="modal-actions-grid">
+        <button class="btn-modal-primary" id="btn-modal-back-testcases">
+          ◀ Quay lại & Thử Testcase khác
+        </button>
+        <button class="btn-modal-secondary" id="btn-modal-open-matrix">
+          🧪 Xem Ma Trận 9 Test Cases
+        </button>
+        <button class="btn-modal-secondary" id="btn-modal-test-other">
+          🔄 Thử Option kế tiếp (A/B/C)
+        </button>
+        <button class="btn-modal-tertiary" id="btn-modal-reset">
+          🔁 Làm lại Testcase này
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- 9 Test Cases Interactive Matrix Modal -->
   <div class="modal-overlay" id="matrix-modal" style="display: none;">
