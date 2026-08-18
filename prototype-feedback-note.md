@@ -1,6 +1,6 @@
 # Prototype Feedback Note — Phiên A/B/C
-
-**Facilitator:** Nguyễn Văn Tuấn Anh (MHV: 2A202601813)  
+// Ngày 19 điều chỉnh
+**Facilitator:** Phạm Bá Huy (MHV: 2A202601132)  
 **Nhóm:** Chicken Plus  
 **Tester:** Người ngoài nhóm (học viên / bạn cùng ngành, đã từng học React cơ bản)  
 **Ngày test:** Day 18 (sau buổi lab)  
