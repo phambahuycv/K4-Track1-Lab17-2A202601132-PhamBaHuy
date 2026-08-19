@@ -101,7 +101,7 @@ Track1_Day18_2A202601813_NguyenVanTuanAnh/
 ├── prototype-feedback-note.md
 ├── group-feedback-synthesis.md
 ├── ai-support-log.md
-└── (tham khảo) Day18_CP1 / CP2 / CP3 — bản làm việc chi tiết các chặng
+└── interview/ (CP1_D18.md, CP2_D18.md, CP3_D18.md, CP4_D18.md, CP5_D18.md, CP6_D18.md, notes.md, recording-link.md)
 ```
 
 ---
